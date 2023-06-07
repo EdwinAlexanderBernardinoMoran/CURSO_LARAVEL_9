@@ -18,10 +18,12 @@ Route::get('/', function () {
 });
 
 Route::get('/', function () {
-    return view('home');
-});
+    $title = 'Home';
+    return view('home', compact('title'));
+})->name('home');
 
 Route::get('blog', function(){
+    $title = 'Blog';
     // Consulta a BD
 
     $posts = [
@@ -29,11 +31,12 @@ Route::get('blog', function(){
         ['id' => 2, 'title' => 'LARAVEL', 'slug' => 'laravel']
     ];
 
-    return view('blog', ['posts' => $posts]);
-});
+    return view('blog', ['posts' => $posts], compact('title'));
+})->name('blog');
 
 Route::get('blog/{slug}', function($slug){
+    $title = 'Blog Personal';
     // Consulta BD
     $post = $slug;
-    return view('post', ['post' => $post]);
-});
+    return view('post', ['post' => $post], compact('title'));
+})->name('post');
