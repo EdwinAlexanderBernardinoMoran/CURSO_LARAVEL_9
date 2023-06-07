@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,26 +18,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
-    $title = 'Home';
-    return view('home', compact('title'));
-})->name('home');
+// Route::get('/', [PageController::class, 'home'])->name('home');
 
-Route::get('blog', function(){
-    $title = 'Blog';
-    // Consulta a BD
+// Route::get('blog', [PageController::class, 'blog'])->name('blog');
 
-    $posts = [
-        ['id' => 1, 'title' => 'PHP', 'slug' => 'php'],
-        ['id' => 2, 'title' => 'LARAVEL', 'slug' => 'laravel']
-    ];
+// Route::get('blog/{slug}', [PageController::class, 'post'])->name('post');
 
-    return view('blog', ['posts' => $posts], compact('title'));
-})->name('blog');
+// Organizar todo para utilizarlo en un Controlador
 
-Route::get('blog/{slug}', function($slug){
-    $title = 'Blog Personal';
-    // Consulta BD
-    $post = $slug;
-    return view('post', ['post' => $post], compact('title'));
-})->name('post');
+Route::controller(PageController::class)->group(function(){
+    Route::get('/', 'home')->name('home');
+
+    Route::get('blog', 'blog')->name('blog');
+
+    Route::get('blog/{slug}', 'post')->name('post');
+});
