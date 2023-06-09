@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
 
             // Agregando nuevos campos a la tabla Post
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('body');
