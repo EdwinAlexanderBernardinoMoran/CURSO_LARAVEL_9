@@ -26,12 +26,14 @@ class PostController extends Controller
     public function store(Request $request){
         $request->validate([
             'title' => 'required',
+            'slug' => 'required|unique:posts,slug',
             'body' => 'required',
         ]);
 
         $post = $request->user()->posts()->create([
-            'title' => $title = $request->title,
-            'slug' => Str::slug($title),
+            'title' => $request->title,
+            // 'slug' => Str::slug($title),
+            'slug' => $request->slug,
             'body' => $request->body,
         ]);
 
@@ -48,12 +50,15 @@ class PostController extends Controller
     public function update(Request $request, Post $post){
         $request->validate([
             'title' => 'required',
+
+            // Revisame esta validacion pero ignorame al mismo tiempo
+            'slug' => 'required|unique:posts,slug,'. $post->id,
             'body' => 'required',
         ]);
 
         $post->update([
-            'title' => $title = $request->title,
-            'slug' => Str::slug($title),
+            'title' => $request->title,
+            'slug' => $request->slug,
             'body' => $request->body,
         ]);
 
