@@ -12,7 +12,7 @@ class PageController extends Controller
     {
         $search = $request->search;
         $title = 'Home';
-        $posts = Post::where('title', 'LIKE', "%{$search}%")->latest()->paginate();
+        $posts = Post::where('title', 'LIKE', "%{$search}%")->with('user')->latest()->paginate();
 
         return view('home', ['posts' => $posts, 'title' => $title]);
     }
